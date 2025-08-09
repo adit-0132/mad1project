@@ -1,0 +1,45 @@
+{% extends "prof.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-items-center">
+<div class="row mb-3">
+    <div class="col-lg-8">
+        {%if bookings%}
+        <h3 class="text-dark mb-4">Booking Requests</h3>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for booking in bookings%}
+                    <tr>
+                        <td>{{booking.userinfo.first_name}} {{booking.userinfo.last_name}}</td>
+                        <td>{{booking.services.base_price}}</td>
+                        <td>
+                            <form method="POST" action="/pro/booking/{{name}}" style="display: inline;">
+                                <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+                                <button class="btn btn-success" name="action" value="Accept">Accept</button>
+                            </form>
+                            <form method="POST" action="/pro/booking/{{name}}" style="display: inline;">
+                                <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+                                <button class="btn btn-danger" name="action" value="Reject">Reject</button>
+                            </form>
+                        </td>
+                    </tr>   
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+        {%else%}
+            <h2>No Bookings at the moment..</h2>
+        {%endif%}
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

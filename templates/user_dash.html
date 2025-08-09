@@ -1,0 +1,73 @@
+{%extends "user.html"%}
+{%block content%}
+<div style="display: flex; margin-left: 20px;">
+    {%for serv in services%}
+    <div class="col-6 col-md-4 col-lg-3 mb-3">
+        <div class="card h-100 shadow-sm">
+            <picture>
+                <img class="card-img-top p-2" 
+                     src="/static/img/dogs/image3.jpeg" 
+                     alt="{{serv.name}}"
+                     style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 12px;">
+            </picture>
+            <div class="card-body p-2 d-flex flex-column">
+                <form method="POST" action="/user/books/{{name}}">
+                <input type="hidden" name="service_name" value="{{ serv.name }}">
+                <h6 class="card-title mb-1">{{serv.name}}</h6>
+                <p class="card-text text-muted small mb-2">₹{{serv.base_price}}</p>
+                <button type="submit"><a class="btn btn-sm btn-outline-primary mt-auto">View</a></button>
+                </form>    
+            </div>
+        </div>
+    </div>
+{%endfor%}
+<p class="success">{{lfg}}</p>
+</div>
+<div class="container-fluid">
+<div class="row mb-3">
+<div class="col-lg-8">
+    {%if bookings%}
+    <h3 class="text-dark mb-4">Your Service History</h3>
+    <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Service Name</th>
+                        <th>Professional Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--ongoing-->
+                    {%for booking in bookings%}
+                    <tr>
+                        <td>{{booking.booking_id}}</td>    
+                        <td>{{booking.services.name}}</td>
+                        <td>{{booking.prof.first_name}} {{booking.prof.last_name}}</td>
+                        <td>
+                            <form method="POST" action="/user/closes/{{name}}" style="display: inline;">
+                                <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                                <button class="btn btn-success" name="action" value="close">Close</button>
+                            </form>
+                        </td>
+                    </tr> 
+                    {%endfor%}
+                    <!--Closed-->
+                    
+                    {%for booking in closed%}
+                    <tr>
+                        <td>{{booking.booking_id}}</td>    
+                        <td>{{booking.services.name}}</td>
+                        <td>{{booking.prof.first_name}} {{booking.prof.last_name}}</td>
+                        <td class="success">Closed by user. </td>
+                    </tr>   
+                    {%endfor%}
+                </tbody>
+            </table>
+            {%endif%}
+                </div>
+            </div>
+        </div>
+</div>
+{%endblock%}

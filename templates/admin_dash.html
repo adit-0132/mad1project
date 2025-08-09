@@ -1,0 +1,167 @@
+{% extends "admin.html" %}
+{% block content %}
+{%if results%}
+{% for result in search_results %}
+    <tr>
+        <td>{{ result.name if result.__class__.__name__ == 'Services' else result.services.name }}</td>
+        <td>{{ result.userinfo.email if result.__class__.__name__ == 'Bookings' else 'N/A' }}</td>
+        <td>{{ result.professional.email if result.__class__.__name__ == 'Bookings' else 'N/A' }}</td>
+    </tr>
+{% endfor %}
+{%endif%}
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-5">
+                    <h3 class="text-dark mb-4">Services</h3>
+                </div>
+                <div class="col-4 text-center">
+                    <a href="/add_service/{{name}}" class="btn btn-primary" type="button"><b>+ Add New Service</b></a>
+                </div>
+                <div class="success">{{get_flashed_messages()[0]}}</div>
+                <div class="col-4"></div>
+            
+        <div class="row mb-3">
+        <div class="col-lg-8">
+            {%if services%}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Service</th>
+                            <th>Base Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for service in services%}
+                        <tr>
+                            <td>{{service.service_id}}</td>
+                            <td>{{service.name}}</td>
+                            <td>{{service.base_price}}</td>
+                            <td>
+                                <form method="POST" action="/admin/services/{{name}}" style="display: inline;">
+                                    <input type="hidden" name="service_id" value="{{ services.service_id }}">
+                                    <button class="btn btn-success" name="action" value="edit">Edit</button>
+                                </form>
+                                <form method="POST" action="/admin/services/{{name}}" style="display: inline;">
+                                    <input type="hidden" name="service_id" value="{{ services.service_id }}">
+                                    <button class="btn btn-danger" name="action" value="delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>   
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+            {%else%}
+                <h2>No Services added at the moment..</h2>
+            {%endif%}
+        </div>
+        </div>
+        <h3 class="text-dark mb-4">New Partner Requests</h3>
+        <div class="row mb-3">
+        <div class="col-lg-8">
+            {%if pendin%}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Service Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for prof in pendin%}
+                        <tr>
+                            <td>{{prof.id}}</td>    
+                            <td>{{prof.first_name}} {{prof.last_name}}</td>
+                            <td>{{prof.service_type}}</td>
+                            <td>
+                                <form method="POST" action="/admin/professionals/{{name}}" style="display: inline;">
+                                    <input type="hidden" name="prof_id" value="{{ prof.id }}">
+                                    <button class="btn btn-success" name="action" value="approve">Approve</button>
+                                </form>
+                                <form method="POST" action="/admin/professionals/{{name}}" style="display: inline;">
+                                    <input type="hidden" name="prof_id" value="{{ prof.id }}">
+                                    <button class="btn btn-danger" name="action" value="reject">Reject</button>
+                                </form>
+                            </td>
+                        </tr>   
+                        {%endfor%}
+                    </tbody>
+                </table>
+                {%else%}
+                <h3>No Available Professionals at the moment..</h3>
+                {%endif%}
+            </div>
+        </div>
+        </div>
+        
+        <h3 class="text-dark mb-4">Working Professionals</h3>
+        <div class="row mb-3">
+        <div class="col-lg-8">
+            {%if profs%}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Service Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for prof in profs%}
+                        <tr>
+                            <td>{{prof.id}}</td>    
+                            <td>{{prof.first_name}} {{prof.last_name}}</td>
+                            <td>{{prof.service_type}}</td>
+                            <td class="success">Working</td>
+                        </tr>   
+                        {%endfor%}
+                    </tbody>
+                </table>
+                {%else%}
+                <h3>No Available Professionals at the moment..</h3>
+                {%endif%}
+            </div>
+        </div>
+        </div>
+        {%if ong%}
+        <h3 class="text-dark mb-4">Ongoing Service Requests</h3>
+        <div class="row mb-3">
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Assigned Professional</th>
+                                <th>User-Id</th>
+                                <th>Requested Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {%for i in ong%}
+                                <td>{{i.booking_id}}</td>
+                                <td>{{i.prof.email}}</td>
+                                <td>{{i.userinfo.email}}</td>
+                                <td>{{i.date_of_booking}}</td>
+                                <td>{{i.status}}</td>
+                            </tr>
+                            {%endfor%}   
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>  
+        {%endif%}
+    </div>
+    </div>
+{% endblock %}

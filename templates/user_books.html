@@ -1,0 +1,44 @@
+{%extends "user.html"%}
+{%block content%}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+    <div class="col-lg-8">
+            
+        <h3 class="text-dark mb-4">Available professionals for {{type}}</h3>
+        <div class="table-responsive">
+                {%if profs%}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Professional Name</th>
+                            <th>Rating</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--ongoing-->
+                        {%for prof in profs%}
+                        <tr>
+                            <td>{{prof.first_name}} {{prof.last_name}}</td>
+                            <td>{{prof.rating}}</td>
+                            <td>
+                                <form method="POST" action="/user/booking/{{name}}" style="display: inline;">
+                                    <input type="hidden" name="type" value="{{ type }}">
+                                    <input type="hidden" name="prof_id" value="{{ prof.id }}">
+                                    <input  type="hidden" name="user_id" value="{{name}}">
+                                    <button class="btn btn-success" name="action" value="book">BOOK</button>
+                                </form>
+                            </td>
+                        </tr> 
+                        {%endfor%}
+                    </tbody>
+                </table>
+                {%else%}
+                <h2>No available professionals for this service at the moment..</h2>
+                {%endif%}
+                    </div>
+                </div>
+            </div>
+    </div>
+{%endblock%}
