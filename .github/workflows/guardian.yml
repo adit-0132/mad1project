@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run Guardian
-        uses: mudit06mah/Github-Guardian@v1.0 # <-- Marketplace action
+        uses: mudit06mah/Github-Guardian@main# <-- Marketplace action
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
