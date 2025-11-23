@@ -1,2 +1,20 @@
-- name: GitHub Guardian
-  uses: mudit06mah/Github-Guardian@v1.0
+name: Guardian Security Scan
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  guardian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Guardian
+        uses: mudit06mah/github-guardian@v1   # <-- Marketplace action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
